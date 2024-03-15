@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Report Form</title>
+    <style>
+
+        body {
+            background: transparent;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .report-form {
+            background-color: #2f3136;
+            border-radius: 12px;
+            padding: 50px; /* Increased padding for a larger form */
+            width: 600px; /* Increased width for a larger form */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+            position: relative;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .header {
+            font-size: 36px; /* Increased font size for the header */
+            font-weight: bold;
+            margin-bottom: 30px; /* Increased margin for spacing */
+            font-style: italic;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 15px; /* Increased margin for spacing */
+            font-size: 24px; /* Increased font size for labels */
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px; /* Increased padding for input fields */
+            margin-bottom: 30px; /* Increased margin for spacing */
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #2f3136;
+            color: #ffffff;
+            font-size: 18px; /* Increased font size for input fields */
+        }
+
+        .submit-button {
+            padding: 20px; /* Increased padding for the submit button */
+            background-color: #B05927;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 24px; /* Increased font size for the button */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 24px; /* Increased font size for the close button */
+        }
+
+        .centered-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 250px; /* Increased height for the banner-like image */
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-form">
+        <span class="close-button" onclick="display(false)">X</span>
+        <img class="centered-image" src="https://cdn.discordapp.com/attachments/982855421779922944/1193782326019248128/standard_5.gif?ex=65adf76d&is=659b826d&hm=fef740439212f9ea73ce3c784e950defcec39f8c918220bfd72dc82e39fdc855&" alt="Banner Image">
+        <div class="header">Report Form</div>
+        <label for="reporter-name" class="label">Your Name:</label>
+        <input type="text" id="reporter-name" class="input-field" placeholder="Your Name">
+        <label for="report-title" class="label">Report Title:</label>
+        <input type="text" id="report-title" class="input-field" placeholder="Report Title">
+        <label for="report-description" class="label">Report Description:</label>
+        <textarea id="report-description" class="input-field" placeholder="Report Description"></textarea>
+        <button class="submit-button" onclick="submitReport()">Submit Report</button>
+    </div>
+    
+
+<script>
+    function display(bool) {
+        if (bool) {
+            $("body").fadeIn("slow");
+        } else {
+            $("body").fadeOut("slow");
+        }
+    }
+    display(false);
+
+    window.addEventListener('message', function(event) {
+    var item = event.data;
+    console.log('Received message:', JSON.stringify(item));
+
+    if (item.type === "ui") {
+            if (item.status == true) {
+                display(true);
+            } else {
+                display(false);
+            }
+        }
+    });
+
+
+    $(".close-button").click(function() {
+        display(false);
+        $.post(`https://${GetParentResourceName()}/close`);
+    });
+
+    document.onkeyup = function(data) {
+        if (data.which == 27) {
+            display(false);
+            $.post(`https://${GetParentResourceName()}/close`);
+        }
+    };
+
+    function submitReport() {
+        const reporterName = document.getElementById('reporter-name').value;
+        const reportTitle = document.getElementById('report-title').value;
+        const reportDescription = document.getElementById('report-description').value;
+        display(false);
+        $.post(`https://${GetParentResourceName()}/close`);
+        
+        const data = {
+            embeds: [
+                {
+                    title: 'New Report Submission',
+                    color: 2899536,
+                    fields: [
+                        {
+                            name: 'Reporter',
+                            value: reporterName,
+                        },
+                        {
+                            name: 'Title',
+                            value: reportTitle,
+                        },
+                        {
+                            name: 'Description',
+                            value: reportDescription,
+                        },
+                    ],
+                },
+            ],
+        };
+
+        fetch('https://discord.com/api/webhooks/1193675873526743040/dhlyLDoX1fBjj7c4s6TBHFmDCoTnakK1zhHETHlHcS1KEHhl410h3XcNdHbyikVVMSaV', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            alert("Report submitted successfully!");
+        })
+        .catch((error) => {
+        });
+    }
+</script>
+</body>
+</html>

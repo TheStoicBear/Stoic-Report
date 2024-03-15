@@ -1,0 +1,77 @@
+
+body {
+    background: transparent;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.report-form {
+    background-color: #2f3136;
+    border-radius: 12px;
+    padding: 50px; /* Increased padding for a larger form */
+    width: 600px; /* Increased width for a larger form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    position: relative;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.header {
+    font-size: 36px; /* Increased font size for the header */
+    font-weight: bold;
+    margin-bottom: 30px; /* Increased margin for spacing */
+    font-style: italic;
+}
+
+.label {
+    display: block;
+    margin-bottom: 15px; /* Increased margin for spacing */
+    font-size: 24px; /* Increased font size for labels */
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px; /* Increased padding for input fields */
+    margin-bottom: 30px; /* Increased margin for spacing */
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #2f3136;
+    color: #ffffff;
+    font-size: 18px; /* Increased font size for input fields */
+}
+
+.submit-button {
+    padding: 20px; /* Increased padding for the submit button */
+    background-color: #B05927;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 24px; /* Increased font size for the button */
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 24px; /* Increased font size for the close button */
+}
+
+.centered-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 250px; /* Increased height for the banner-like image */
+    margin-bottom: 30px;
+    border-radius: 12px;
+}
